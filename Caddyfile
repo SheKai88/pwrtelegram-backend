@@ -1,0 +1,39 @@
+http://api.pwrtelegram.xyz, https://api.pwrtelegram.xyz {
+	root pwrtelegram/
+	errors api.log
+	git https://github.com/pwrtelegram/pwrtelegram {
+		interval 60
+	}
+	cors
+	gzip
+	tls admin@pwrtelegram.xyz
+	rewrite {
+		to {path} /index.php
+	}
+	fastcgi / unix:/var/run/hhvm/sock {
+		index index.php
+	}
+}
+http://beta.pwrtelegram.xyz, https://beta.pwrtelegram.xyz {
+	root beta/
+	errors api.log
+	cors
+	gzip
+	tls admin@pwrtelegram.xyz
+	rewrite {
+		to {path} /index.php
+	}
+	fastcgi / unix:/var/run/hhvm/sock {
+		index index.php
+	}
+}
+https://storage.pwrtelegram.xyz, http://storage.pwrtelegram.xyz {
+	root storage
+	errors storage.log
+	cors
+	rewrite {
+		to /index.php
+	}
+	fastcgi / unix:/var/run/hhvm/sock php
+	tls ../keys/storage.cert ../keys/storage.key
+}
