@@ -1,4 +1,0 @@
-# telegram-cli check cron job
-# m h  dom mon dow   command
-* * * * * pgrep -f 'telegram-cli --json --permanent-msg-ids -dWS /tmp/tg.sck' -U $(id -u) || bash -c "rm /tmp/tg.sck; telegram-cli --json --permanent-msg-ids -dWS /tmp/tg.sck&"
-

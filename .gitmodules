@@ -1,0 +1,6 @@
+[submodule "tg"]
+	path = tg
+	url = https://github.com/pwrtelegram/tg
+[submodule "telegram-lua-load"]
+	path = telegram-lua-load
+	url = https://github.com/pwrtelegram/telegram-lua-load
