@@ -38,8 +38,8 @@ if (is_file($file_path))
 	{
 		// set the headers, prevent caching
 		header("Content-Disposition: attachment; filename=\"$file_name\"");
-		$finfo = finfo_open(FILEINFO_MIME_TYPE);
-		$mime = finfo_file($finfo, $path);
+		$finfo = finfo_open(FILEINFO_MIME_TYPE);
+		$mime = finfo_file($finfo, $file_path);
 		finfo_close($finfo);
 		header("Content-Type: " . $mime);
 
@@ -67,7 +67,6 @@ if (is_file($file_path))
 		{
 			$range = '';
 		}
-
 		//figure out download piece from range (if set)
 		list($seek_start, $seek_end) = explode('-', $range, 2);
 
@@ -84,7 +83,6 @@ if (is_file($file_path))
 			header('Content-Length: '.($seek_end - $seek_start + 1));
 		}
 		else { header("Content-Length: $file_size"); };
-exit;
 		header('Accept-Ranges: bytes');
     
 		set_time_limit(0);
