@@ -32,7 +32,7 @@ https://storage.pwrtelegram.xyz, http://storage.pwrtelegram.xyz {
 	errors storage.log
 	cors
 	rewrite {
-		to /index.php
+		to {path} /index.php
 	}
 	fastcgi / unix:/var/run/hhvm/sock php
 	tls ../keys/storage.cert ../keys/storage.key

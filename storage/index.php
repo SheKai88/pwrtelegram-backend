@@ -16,8 +16,18 @@ if($_SERVER['REQUEST_URI'] == "/") {
  exit;
 }
 
-// sanitize the file request, keep just the name and extension
-// also, replaces the file location with a preset one ('./myfiles/' in this example)
+include '../db_connect.php';
+
+$bot = basename(dirname($_SERVER["REQUEST_URI"]));
+$file_path = preg_replace("/^\/*/", "", $_SERVER["REQUEST_URI"]);
+$selectstmt = $pdo->prepare("SELECT real_file_path FROM dl WHERE file_path=? AND bot=? LIMIT 1;");
+$selectstmt->execute(array($file_path, $bot));
+$select = $selectstmt->fetch(PDO::FETCH_ASSOC);
+if($selectstmt->rowCount() == "1" && is_file($select["real_file_path"])) {
+	$file_path = $select["real_file_path"];
+} else $file_path = "";
+
+/*
 $path_parts = pathinfo($_SERVER['REQUEST_URI']);
 $file_name  = $path_parts['basename'];
 $file_dir = realpath(__DIR__ . $path_parts['dirname']);
@@ -27,7 +37,7 @@ $globDirs = glob(__DIR__."/*", GLOB_ONLYDIR);
 
 foreach ($globDirs as $dir) { if($dir == $file_dir) $rdir = $dir; };
 $file_path = $rdir . "/" . $file_name;
-
+*/
 
 // make sure the file exists
 if (is_file($file_path))
@@ -36,7 +46,6 @@ if (is_file($file_path))
 	$file = @fopen($file_path,"rb");
 	if ($file)
 	{
-		// set the headers, prevent caching
 		header("Content-Disposition: attachment; filename=\"$file_name\"");
 		$finfo = finfo_open(FILEINFO_MIME_TYPE);
 		$mime = finfo_file($finfo, $file_path);
