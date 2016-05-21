@@ -1,5 +1,5 @@
 http://api.pwrtelegram.xyz, https://api.pwrtelegram.xyz {
-	root pwrtelegram/
+	root api/
 	errors api.log
 	git https://github.com/pwrtelegram/pwrtelegram {
 		interval 60
@@ -28,11 +28,12 @@ http://beta.pwrtelegram.xyz, https://beta.pwrtelegram.xyz {
 	}
 }
 https://storage.pwrtelegram.xyz, http://storage.pwrtelegram.xyz {
-	root storage
+	root api/
 	errors storage.log
 	cors
+	gzip
 	rewrite {
-		to {path} /index.php
+		to {path} /storage.php
 	}
 	fastcgi / unix:/var/run/hhvm/sock php
 	tls ../keys/storage.cert ../keys/storage.key
