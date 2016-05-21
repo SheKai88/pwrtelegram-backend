@@ -27,17 +27,12 @@ if($selectstmt->rowCount() == "1" && is_file($select["real_file_path"])) {
 	$file_path = $select["real_file_path"];
 } else $file_path = "";
 
-/*
+
 $path_parts = pathinfo($_SERVER['REQUEST_URI']);
 $file_name  = $path_parts['basename'];
 $file_dir = realpath(__DIR__ . $path_parts['dirname']);
 $file_ext = $path_parts['extension'];
 
-$globDirs = glob(__DIR__."/*", GLOB_ONLYDIR);
-
-foreach ($globDirs as $dir) { if($dir == $file_dir) $rdir = $dir; };
-$file_path = $rdir . "/" . $file_name;
-*/
 
 // make sure the file exists
 if (is_file($file_path))
@@ -76,6 +71,8 @@ if (is_file($file_path))
 		{
 			$range = '';
 		}
+		error_reporting(0);
+
 		//figure out download piece from range (if set)
 		list($seek_start, $seek_end) = explode('-', $range, 2);
 
@@ -99,6 +96,7 @@ if (is_file($file_path))
 		
 		while(!feof($file)) 
 		{
+			// Turn off all error reporting
 			print(@fread($file, 1024*8));
 			ob_flush();
 			flush();
