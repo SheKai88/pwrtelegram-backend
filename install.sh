@@ -56,7 +56,7 @@ apt-get update
 echo "Updating packages..."
 apt-get dist-upgrade -y
 echo "Installing required packages..."
-apt-get -y install curl libreadline-dev libconfig-dev libssl-dev lua5.2 liblua5.2-dev libevent-dev libjansson-dev libpython-dev make build-essential mediainfo wget mysql-server mysql-client automake autoconf libtools hhvm git php5-curl php5-cli php5-json php5-mcrypt php5-mysql php5-readline php5-xmlrpc software-properties-common python-software-properties cut tmux
+apt-get -y install curl libreadline-dev libconfig-dev libssl-dev lua5.2 liblua5.2-dev libevent-dev libjansson-dev libpython-dev make build-essential mediainfo wget mysql-server mysql-client automake autoconf libtool hhvm git php5-curl php5-cli php5-json php5-mcrypt php5-mysql php5-readline php5-xmlrpc software-properties-common python-software-properties tmux
 
 
 sudo update-rc.d hhvm defaults
