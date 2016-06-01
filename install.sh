@@ -130,9 +130,9 @@ sed -i 's/user/'$username'/g;s/pass/'$password'/g' db_connect.php
 cd $homedir/pwrtelegram
 read -p "Type the domain name you intend to use for the main pwrtelegram API server (defaults to api.pwrtelegram.xyz): " api
 [ "$api" == "" ] && api="api.pwrtelegram.xyz"
-read -p "Type the domain name you intend to use for the beta pwrtelegram API server: " beta
+read -p "Type the domain name you intend to use for the beta pwrtelegram API server (defaults to beta.pwrtelegram.xyz): " beta
 [ "$beta" == "" ] && beta="beta.pwrtelegram.xyz"
-read -p "Type the domain name you intend to use for the pwrtelegram storage server: " storage
+read -p "Type the domain name you intend to use for the pwrtelegram storage server (defaults to storage.pwrtelegram.xyz): " storage
 [ "$storage" == "" ] && storage="storage.pwrtelegram.xyz"
 
 echo "Configuring pwrtelegram..."
