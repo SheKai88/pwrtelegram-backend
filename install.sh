@@ -46,7 +46,7 @@ fi
 # Install required packages
 if [ ! -f /etc/apt/sources.list.d/hhvm.list ]; then
 	echo "Adding hhvm repo..."
-	source /etc/lsb-release
+	DISTRIB_CODENAME=$(lsb_release -sc)
 	wget -O - http://dl.hhvm.com/conf/hhvm.gpg.key | apt-key add -
 	echo deb http://dl.hhvm.com/debian "$DISTRIB_CODENAME" main > /etc/apt/sources.list.d/hhvm.list
 fi
