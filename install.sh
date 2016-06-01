@@ -94,20 +94,21 @@ fi
 homedir=$( getent passwd "pwrtelegram" | cut -d: -f6 )
 
 if [ -d $homedir/pwrtelegram ]; then
-	read -p "The pwrtelegram directory already exists. Do you whish to delete it and restart the installation (y/n)?" answer
-	[[ $answer =~ ^([yY][eE][sS]|[yY])$ ]] && rm -r $homedir/pwrtelegram || exit 1
+	read -p "The pwrtelegram directory already exists. Do you whish to delete it and restart the installation (y/n)? " answer
+	[[ $answer =~ ^([yY][eE][sS]|[yY])$ ]] && rm -rf $homedir/pwrtelegram || exit 1
 fi
 
 echo "Cloning pwrtelegram in $homedir/pwrtelegram..."
 cd $homedir
-pwrexec git clone https://github.com/pwrtelegram/pwrtelegram $homedir/pwrtelegram --recursive
+pwrexec git clone --recursive https://github.com/pwrtelegram/pwrtelegram-backend $homedir/pwrtelegram
 
-echo "Installing tg-cli..."
-cd $homedir/pwrtelegram/tg
-./configure
-make
-make install
-cp -a bin/* /usr/bin/
+if ! (which telegram-cli >/dev/null && telegram-cli --help | grep -q lua-param);then
+	echo "Installing tg-cli..."
+	cd $homedir/pwrtelegram/tg
+	./configure
+	make
+	cp -a bin/* /usr/bin/
+fi
 
 echo "Configuring hhvm..."
 cd $homedir/pwrtelegram/
@@ -122,7 +123,7 @@ read -p "Password: " password
 echo "Installing database..."
 cd $homedir/pwrtelegram/
 mysql -u$username -p$password -e 'DROP DATABASE IF EXISTS `pwrtelegram`; CREATE DATABASE `pwrtelegram`;'
-mysql -u$username -p$password < db.sql
+mysql -u$username -p$password pwrtelegram < db.sql
 cp dummy_db_connect.php db_connect.php
 sed -i 's/user/'$username'/g;s/pass/'$password'/g' db_connect.php
 
@@ -136,7 +137,7 @@ read -p "Type the domain name you intend to use for the pwrtelegram storage serv
 
 echo "Configuring pwrtelegram..."
 sed -i 's/api\.pwrtelegram\.xyz/'$api'/g;s/beta\.pwrtelegram\.xyz/'$beta'/g;s/storage\.pwrtelegram\.xyz/'$storage'/g' Caddyfile storage_url.php
-pwrexec git clone https://github.com/pwrtelegram/pwrtelegram $homedir/pwrtelegram/beta
+pwrexec git clone --recursive https://github.com/pwrtelegram/pwrtelegram $homedir/pwrtelegram/beta
 
 echo "That's it, pretty much!
 You have configured PWRTelegram in the following way:
