@@ -27,7 +27,7 @@ echo "PWRTelegram installer script  Copyright (C) 2016  Daniil Gentili
 This program comes with ABSOLUTELY NO WARRANTY; for details see https://github.com/pwrtelegram/pwrtelegram-backend/blob/master/LICENSE
 This is free software, and you are welcome to redistribute it under certain conditions: see https://github.com/pwrtelegram/pwrtelegram-backend/blob/master/LICENSE
 
-This program is created to run on debian, it might support ubuntu.
+This program is created to run on ubuntu.
 "
 pwrexec() { su pwrtelegram -c "$*"; };
 
@@ -47,8 +47,9 @@ fi
 if [ ! -f /etc/apt/sources.list.d/hhvm.list ]; then
 	echo "Adding hhvm repo..."
 	DISTRIB_CODENAME=$(lsb_release -sc)
+	source /etc/os-release
 	wget -O - http://dl.hhvm.com/conf/hhvm.gpg.key | apt-key add -
-	echo deb http://dl.hhvm.com/debian "$DISTRIB_CODENAME" main > /etc/apt/sources.list.d/hhvm.list
+	echo deb http://dl.hhvm.com/$ID "$DISTRIB_CODENAME" main > /etc/apt/sources.list.d/hhvm.list
 fi
 
 echo "Updating package list..."
@@ -63,10 +64,9 @@ sudo update-rc.d hhvm defaults
 
 if ! which ffprobe &>/dev/null;then
 	echo "Installing ffmpeg..."
-	echo "deb http://mirror.optus.net/deb-multimedia/ stable main
-deb-src http://mirror.optus.net/deb-multimedia/ stable main">/etc/apt/sources.list.d/deb-multimedia.list
+	apt-add-repository ppa:jon-severinsson/ffmpeg
 	apt-get update
-	apt-get install deb-multimedia-keyring ffmpeg --force-yes -y
+	apt-get install ffmpeg --force-yes -y
 	which ffprobe >/dev/null
 
 fi
