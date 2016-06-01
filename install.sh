@@ -99,6 +99,7 @@ if [ -d $homedir/pwrtelegram ]; then
 fi
 
 echo "Cloning pwrtelegram in $homedir/pwrtelegram..."
+cd $homedir
 pwrexec git clone https://github.com/pwrtelegram/pwrtelegram $homedir/pwrtelegram --recursive
 
 echo "Installing tg-cli..."
