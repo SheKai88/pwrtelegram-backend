@@ -159,11 +159,11 @@ tls you@domain.com
 3.
 
 Once you have finished making your changes start the API with
-$homedir/pwrtelegram/launch.sh start
+$homedir/pwrtelegram/start_stop.sh start
 
 4.
 
-Star and watch the repositories of this project (https://github.com/pwrtelegram), subscribe to the official PWRTelegram channel (https://telegram.me/pwrtelegram), join the official PWRTelegram chat (https://telegram.me/pwrtelegramgroup), follow the official PWRTelegram account on Twitter (https://twitter.com/PWRTelegram).
+Star, watch and submit pull requests to the repositories of this project (https://github.com/pwrtelegram), subscribe to the official PWRTelegram channel (https://telegram.me/pwrtelegram), join the official PWRTelegram chat (https://telegram.me/pwrtelegramgroup), follow the official PWRTelegram account on Twitter (https://twitter.com/PWRTelegram).
 Follow the creator (Daniil Gentili, https://daniil.it) on github (https://github.com/danog), contact him on Telegram (https://telegram.me/danogentili) or on Twitter (https://twitter.com/DaniilGentili)
 
 And (optional but recommended) support the developer with a donation @ https://paypal.me/danog :)
