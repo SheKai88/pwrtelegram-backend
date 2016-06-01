@@ -64,7 +64,7 @@ sudo update-rc.d hhvm defaults
 
 if ! which ffprobe &>/dev/null;then
 	echo "Installing ffmpeg..."
-	apt-add-repository ppa:jon-severinsson/ffmpeg
+	apt-add-repository ppa:mc3man/trusty-media
 	apt-get update
 	apt-get install ffmpeg --force-yes -y
 	which ffprobe >/dev/null
