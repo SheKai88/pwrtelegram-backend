@@ -27,8 +27,8 @@ http://beta.pwrtelegram.xyz, https://beta.pwrtelegram.xyz {
 		index index.php
 	}
 }
-https://storage.pwrtelegram.xyz, http://storage.pwrtelegram.xyz {
-	root api/
+http://storage.pwrtelegram.xyz, https://storage.pwrtelegram.xyz {
+	root beta/
 	errors storage.log
 	cors
 	gzip
