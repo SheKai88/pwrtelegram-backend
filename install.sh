@@ -117,7 +117,7 @@ sed 's/www-data/pwrtelegram/g' -i /etc/init.d/hhvm
 chown pwrtelegram:pwrtelegram -R /var/run/hhvm/
 service hhvm restart
 
-echo "Please enter your database connection details now."
+echo "Please enter your mysql database username and password."
 read -p "Username: " username
 read -p "Password: " password
 
