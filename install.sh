@@ -80,7 +80,7 @@ fi
 if ! which caddy &>/dev/null;then
 	echo "Installing caddy..."
 	wget -O - https://getcaddy.com | bash -s cors,git,jsonp,mailout,realip,upload
-	setcap cap_net_bind_service=+ep /usr/bin/caddy
+	setcap cap_net_bind_service=+ep /usr/local/bin/caddy
 	which caddy >/dev/null
 fi
 
