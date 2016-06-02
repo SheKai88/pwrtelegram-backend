@@ -80,7 +80,7 @@ fi
 if ! which caddy &>/dev/null;then
 	echo "Installing caddy..."
 	wget -O - https://getcaddy.com | bash -s cors,git,jsonp,mailout,realip,upload
-	setcap cap_net_bind_service=+ep /usr/local/bin/caddy
+	setcap cap_net_bind_service=+ep /usr/bin/caddy
 	which caddy >/dev/null
 fi
 
@@ -113,6 +113,7 @@ fi
 echo "Configuring hhvm..."
 cd $homedir/pwrtelegram/
 cp -a hhvm/* /etc/hhvm/
+sed 's/www-data/pwrtelegram/g' -i /etc/init.d/hhvm
 chown pwrtelegram:pwrtelegram -R /var/run/hhvm/
 service hhvm restart
 
@@ -130,9 +131,9 @@ sed -i 's/user/'$username'/g;s/pass/'$password'/g' db_connect.php
 cd $homedir/pwrtelegram
 read -p "Type the domain name you intend to use for the main pwrtelegram API server (defaults to api.pwrtelegram.xyz): " api
 [ "$api" == "" ] && api="api.pwrtelegram.xyz"
-read -p "Type the domain name you intend to use for the beta pwrtelegram API server (defaults to beta.pwrtelegram.xyz): " beta
+read -p "Type the domain name you intend to use for the beta pwrtelegram API server: " beta
 [ "$beta" == "" ] && beta="beta.pwrtelegram.xyz"
-read -p "Type the domain name you intend to use for the pwrtelegram storage server (defaults to storage.pwrtelegram.xyz): " storage
+read -p "Type the domain name you intend to use for the pwrtelegram storage server: " storage
 [ "$storage" == "" ] && storage="storage.pwrtelegram.xyz"
 
 echo "Configuring pwrtelegram..."
