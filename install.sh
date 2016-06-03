@@ -139,6 +139,15 @@ read -p "Type the domain name you intend to use for the pwrtelegram storage serv
 echo "Configuring pwrtelegram..."
 sed -i 's/api\.pwrtelegram\.xyz/'$api'/g;s/beta\.pwrtelegram\.xyz/'$beta'/g;s/storage\.pwrtelegram\.xyz/'$storage'/g' Caddyfile storage_url.php
 pwrexec git clone --recursive https://github.com/pwrtelegram/pwrtelegram $homedir/pwrtelegram/beta
+cd $homedir
+echo "Configuring tg-cli (please enter your phone number now...)"
+pwrexec telegram-cli
+tg=$(pwrexec telegram-cli -e 'get_self' --json -R)
+tg=$(echo "$tg" | sed '/{\"peer_id\": /!d;s/.*{\"peer_id\": //g;s/,.*//g')
+
+sed 's/140639228/'$tg'/g' -i $homedir/pwrtelegram/storage_url.php
+
+
 
 echo "That's it, pretty much!
 You have configured PWRTelegram in the following way:
@@ -154,26 +163,30 @@ Edit $homedir/pwrtelegram/Caddyfile to disable or change the source repo of the 
 
 2.
 
-Configure tg-cli by running telegram-cli as user pwrtelegram.
-
-3.
-
 Setup the storage server by setting up a CDN on the $storage domain name and create a new ssl certificate (use Cloudflare or Let's encrypt) and place the certificate in $homedir/keys/storage.cert and the key in $homedir/keys/storage.key.
 To avoid creating a certificate and setting up a CDN enable automatic tls in the Caddyfile entry for $storage.
 
 tls you@domain.com
 
-4.
+
+3.
 
 Once you have finished making your changes start the API with
 $homedir/pwrtelegram/start_stop.sh start
 
-5.
+4.
 
 Star, watch and submit pull requests to the repositories of this project (https://github.com/pwrtelegram), subscribe to the official PWRTelegram channel (https://telegram.me/pwrtelegram), join the official PWRTelegram chat (https://telegram.me/pwrtelegramgroup), follow the official PWRTelegram account on Twitter (https://twitter.com/PWRTelegram).
 Follow the creator (Daniil Gentili, https://daniil.it) on github (https://github.com/danog), contact him on Telegram (https://telegram.me/danogentili) or on Twitter (https://twitter.com/DaniilGentili)
 
 And (optional but recommended) support the developer with a donation @ https://paypal.me/danog :)
+
+Here are the location of the log files:
+* Caddy: $homedir/pwrtelegram/caddy.log
+* API endpoints (server log): $homedir/pwrtelegram/api.log
+* Storage server (server log): $homedir/pwrtelegram/storage.log
+* API and storage (php log): /tmp/php-error-index.log
+
 
 Dropping you to a shell as user pwrtelegram...
 "
