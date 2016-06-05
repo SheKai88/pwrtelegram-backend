@@ -98,17 +98,9 @@ if [ -d $homedir/pwrtelegram ]; then
 	[[ $answer =~ ^([yY][eE][sS]|[yY])$ ]] && rm -rf $homedir/pwrtelegram || exit 1
 fi
 
-echo "Cloning pwrtelegram in $homedir/pwrtelegram..."
+echo "Installing pwrtelegram in $homedir/pwrtelegram..."
 cd $homedir
 pwrexec git clone --recursive https://github.com/pwrtelegram/pwrtelegram-backend $homedir/pwrtelegram
-
-if ! (which telegram-cli >/dev/null && telegram-cli --help | grep -q lua-param);then
-	echo "Installing tg-cli..."
-	cd $homedir/pwrtelegram/tg
-	./configure
-	make
-	cp -a bin/* /usr/bin/
-fi
 
 echo "Configuring hhvm..."
 cd $homedir/pwrtelegram/
@@ -131,17 +123,17 @@ sed -i 's/user/'$username'/g;s/pass/'$password'/g' db_connect.php
 cd $homedir/pwrtelegram
 read -p "Type the domain name you intend to use for the main pwrtelegram API server (defaults to api.pwrtelegram.xyz): " api
 [ "$api" == "" ] && api="api.pwrtelegram.xyz"
-read -p "Type the domain name you intend to use for the beta pwrtelegram API server: " beta
+read -p "Type the domain name you intend to use for the beta pwrtelegram API server (defaults to beta.pwrtelegram.xyz): " beta
 [ "$beta" == "" ] && beta="beta.pwrtelegram.xyz"
-read -p "Type the domain name you intend to use for the pwrtelegram storage server: " storage
+read -p "Type the domain name you intend to use for the pwrtelegram storage server: (defaults to storage.pwrtelegram.xyz)" storage
 [ "$storage" == "" ] && storage="storage.pwrtelegram.xyz"
 
 echo "Configuring pwrtelegram..."
 sed -i 's/api\.pwrtelegram\.xyz/'$api'/g;s/beta\.pwrtelegram\.xyz/'$beta'/g;s/storage\.pwrtelegram\.xyz/'$storage'/g' Caddyfile storage_url.php
-pwrexec git clone --recursive https://github.com/pwrtelegram/pwrtelegram $homedir/pwrtelegram/beta
+pwrexec $homedir/update.sh
 cd $homedir
 echo "Configuring tg-cli (please enter your phone number now...)"
-pwrexec telegram-cli -e quit
+pwrexec "telegram-cli -e quit"
 tg=$(pwrexec telegram-cli -e 'get_self' --json -R)
 tg=$(echo "$tg" | sed '/{\"peer_id\": /!d;s/.*{\"peer_id\": //g;s/,.*//g')
 
