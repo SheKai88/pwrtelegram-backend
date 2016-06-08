@@ -1,0 +1,9 @@
+#!/bin/bash
+
+echo "Updating pwrtelegram..."
+cd $(dirname $0)
+
+git pull
+
+cd beta
+git 
