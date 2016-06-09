@@ -173,7 +173,7 @@ Follow the creator (Daniil Gentili, https://daniil.it) on github (https://github
 
 And (optional but recommended) support the developer with a donation @ https://paypal.me/danog :)
 
-Here are the location of the log files:
+Here are the paths of the log files:
 * Caddy: $homedir/pwrtelegram/caddy.log
 * API endpoints (server log): $homedir/pwrtelegram/api.log
 * Storage server (server log): $homedir/pwrtelegram/storage.log
