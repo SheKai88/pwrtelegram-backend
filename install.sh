@@ -59,7 +59,7 @@ apt-get dist-upgrade --force-yes -y
 echo "Installing required packages..."
 apt-get -y --force-yes install hhvm
 service hhvm stop
-apt-get --force-yes -y install curl libreadline-dev libconfig-dev libssl-dev lua5.2 liblua5.2-dev libevent-dev libjansson-dev libpython-dev make build-essential mediainfo wget mysql-server mysql-client automake autoconf libtool git php5-curl php5-cli php5-json php5-mcrypt php5-mysql php5-readline php5-xmlrpc software-properties-common python-software-properties tmux libcap2-bin
+apt-get --force-yes -y install curl libreadline-dev libconfig-dev libssl-dev lua5.2 liblua5.2-dev libevent-dev libjansson-dev libpython-dev make build-essential mediainfo wget mysql-server mysql-client automake autoconf libtool git software-properties-common python-software-properties tmux libcap2-bin
 update-rc.d hhvm defaults
 
 if ! which ffprobe &>/dev/null;then
@@ -125,12 +125,12 @@ read -p "Type the domain name you intend to use for the main pwrtelegram API ser
 [ "$api" == "" ] && api="api.pwrtelegram.xyz"
 read -p "Type the domain name you intend to use for the beta pwrtelegram API server (defaults to beta.pwrtelegram.xyz): " beta
 [ "$beta" == "" ] && beta="beta.pwrtelegram.xyz"
-read -p "Type the domain name you intend to use for the pwrtelegram storage server: (defaults to storage.pwrtelegram.xyz)" storage
+read -p "Type the domain name you intend to use for the pwrtelegram storage server (defaults to storage.pwrtelegram.xyz): " storage
 [ "$storage" == "" ] && storage="storage.pwrtelegram.xyz"
 
 echo "Configuring pwrtelegram..."
 sed -i 's/api\.pwrtelegram\.xyz/'$api'/g;s/beta\.pwrtelegram\.xyz/'$beta'/g;s/storage\.pwrtelegram\.xyz/'$storage'/g' Caddyfile storage_url.php
-pwrexec $homedir/update.sh
+pwrexec $homedir/pwrtelegram/update.sh
 cd $homedir
 echo "Configuring tg-cli (please enter your phone number now...)"
 pwrexec "telegram-cli -e quit"

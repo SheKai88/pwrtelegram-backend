@@ -5,7 +5,7 @@ dir=$(dirname $0)
 echo "Updating pwrtelegram..."
 cd $dir
 git pull --recurse-submodules; git submodule update --recursive
-cd beta
+cd $dir/beta
 git pull
 cd $dir/api
 git pull
