@@ -35,6 +35,9 @@ http://storage.pwrtelegram.xyz, https://storage.pwrtelegram.xyz {
 	rewrite {
 		to {path} /storage.php
 	}
-	fastcgi / unix:/var/run/hhvm/sock php
-	tls ../keys/storage.cert ../keys/storage.key
+	fastcgi / unix:/var/run/hhvm/sock {
+		index storage.php
+	}
+	tls admin@pwrtelegram.xyz
+#	tls ../keys/storage.cert ../keys/storage.key
 }
