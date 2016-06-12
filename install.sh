@@ -133,8 +133,8 @@ sed -i 's/api\.pwrtelegram\.xyz/'$api'/g;s/beta\.pwrtelegram\.xyz/'$beta'/g;s/st
 pwrexec $homedir/pwrtelegram/update.sh
 cd $homedir
 echo "Configuring tg-cli (please enter your phone number now...)"
-pwrexec "telegram-cli -e quit"
-tg=$(pwrexec telegram-cli -e 'get_self' --json -R)
+pwrexec "$homedir/pwrtelegram/tg/bin/telegram-cli -e quit"
+tg=$(pwrexec $homedir/pwrtelegram/tg/bin/telegram-cli -e 'get_self' --json -R)
 tg=$(echo "$tg" | sed '/{\"peer_id\": /!d;s/.*{\"peer_id\": //g;s/,.*//g')
 
 sed 's/140639228/'$tg'/g' -i $homedir/pwrtelegram/storage_url.php
