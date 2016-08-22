@@ -79,7 +79,7 @@ fi
 
 if ! which caddy &>/dev/null;then
 	echo "Installing caddy..."
-	wget -O - https://getcaddy.com | bash -s cors,git,jsonp,mailout,realip,upload
+	wget -O - https://getcaddy.com | bash -s cors,git,realip,upload,cloudflare
 	setcap cap_net_bind_service=+ep /usr/local/bin/caddy
 	which caddy >/dev/null
 fi
@@ -155,18 +155,10 @@ Edit $homedir/pwrtelegram/Caddyfile to disable or change the source repo of the 
 
 2.
 
-Setup the storage server by setting up a CDN on the $storage domain name and create a new ssl certificate (use Cloudflare or Let's encrypt) and place the certificate in $homedir/keys/storage.cert and the key in $homedir/keys/storage.key.
-To avoid creating a certificate and setting up a CDN enable automatic tls in the Caddyfile entry for $storage.
-
-tls you@domain.com
-
-
-3.
-
 Once you have finished making your changes start the API with
 $homedir/pwrtelegram/start_stop.sh start
 
-4.
+3.
 
 Star, watch and submit pull requests to the repositories of this project (https://github.com/pwrtelegram), subscribe to the official PWRTelegram channel (https://telegram.me/pwrtelegram), join the official PWRTelegram chat (https://telegram.me/pwrtelegramgroup), follow the official PWRTelegram account on Twitter (https://twitter.com/PWRTelegram).
 Follow the creator (Daniil Gentili, https://daniil.it) on github (https://github.com/danog), contact him on Telegram (https://telegram.me/danogentili) or on Twitter (https://twitter.com/DaniilGentili)

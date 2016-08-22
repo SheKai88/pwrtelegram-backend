@@ -39,5 +39,4 @@ http://storage.pwrtelegram.xyz, https://storage.pwrtelegram.xyz {
 		index storage.php
 	}
 	tls admin@pwrtelegram.xyz
-#	tls ../keys/storage.cert ../keys/storage.key
 }
