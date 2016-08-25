@@ -39,9 +39,9 @@ for f in apt-get;do
 done
 
 if ! which wget &>/dev/null;then
-	echo "Installing wget..."
+	echo "Installing wget, nano and lsb-release..."
 	apt-get update
-	apt-get --force-yes -y install wget
+	apt-get --force-yes -y install wget nano lsb-release
 fi
 # Install required packages
 if [ ! -f /etc/apt/sources.list.d/hhvm.list ]; then
@@ -83,6 +83,9 @@ if ! which caddy &>/dev/null;then
 	setcap cap_net_bind_service=+ep /usr/local/bin/caddy
 	which caddy >/dev/null
 fi
+
+echo "Cleaning up..."
+apt-get clean
 
 # Check whether username exists
 
