@@ -104,9 +104,12 @@ pwrexec git clone --recursive https://github.com/pwrtelegram/pwrtelegram-backend
 
 echo "Configuring hhvm..."
 cd $homedir/pwrtelegram/
+service hhvm stop
 cp -a hhvm/* /etc/hhvm/
 sed 's/www-data/pwrtelegram/g' -i /etc/init.d/hhvm
 chown pwrtelegram:pwrtelegram -R /var/run/hhvm/
+update-rc.d hhvm defaults
+systemctl daemon-reload
 service hhvm restart
 
 echo "Please enter your mysql database username and password."
