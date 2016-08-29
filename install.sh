@@ -209,7 +209,7 @@ service hhvm restart
 cd $homedir/pwrtelegram/
 pwrexec $homedir/pwrtelegram/update.sh
 
-if [ "$1" !== "docker" ];then
+if [ "$1" != "docker" ];then
 	configure
 fi
 
