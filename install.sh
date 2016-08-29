@@ -201,7 +201,9 @@ cp -a hhvm/* /etc/hhvm/
 sed 's/www-data/pwrtelegram/g' -i /etc/init.d/hhvm
 chown pwrtelegram:pwrtelegram -R /var/run/hhvm/
 update-rc.d hhvm defaults
-systemctl daemon-reload
+
+[ $(lsb_release -rs | sed 's/\..*//g') == 16 ] && systemctl daemon-reload
+
 service hhvm restart
 
 cd $homedir/pwrtelegram/
