@@ -101,7 +101,7 @@ tmpdir=/tmp/pwrtelegram_tmp
 
 if [ "$1" == "docker" -a "$2" == "configure" ];then
 	echo "Create a mysql password"
-	dpkg-reconfigure mysql-server
+	apt-get -y install mysql-server
 	echo "Create a password for the pwrtelegram user"
 	passwd pwrtelegram
 	homedir=$( getent passwd "pwrtelegram" | cut -d: -f6 )
@@ -135,7 +135,7 @@ apt-get dist-upgrade --force-yes -y
 echo "Installing required packages..."
 apt-get -y --force-yes install hhvm
 service hhvm stop
-if [ "$2" == "docker" ];then
+if [ "$1" == "docker" ];then
 	apt-get --force-yes -y install curl libreadline-dev libconfig-dev libssl-dev lua5.2 liblua5.2-dev libevent-dev libjansson-dev libpython-dev make build-essential mediainfo wget mysql-server mysql-client automake autoconf libtool git software-properties-common python-software-properties tmux libcap2-bin << EOF
 
 
