@@ -101,7 +101,7 @@ tmpdir=/tmp/pwrtelegram_tmp
 
 if [ "$1" == "docker" -a "$2" == "configure" ];then
 	echo "Create a mysql password"
-	apt-get -y install mysql-server
+	dpkg-reconfigure mysql-server
 	echo "Create a password for the pwrtelegram user"
 	passwd pwrtelegram
 	homedir=$( getent passwd "pwrtelegram" | cut -d: -f6 )
