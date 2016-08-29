@@ -100,12 +100,16 @@ Dropping you to a shell as user pwrtelegram...
 tmpdir=/tmp/pwrtelegram_tmp
 
 if [ "$1" == "docker" -a "$2" == "configure" ];then
+	service mysql start
+	service hhvm start
 	echo "Create a mysql password"
-	dpkg-reconfigure mysql-server
+	mysql=$(dpkg -l | sed '/mysql-server-/!d;/mysql-server-core/d;s/.*mysql-server/mysql-server/g;s/\s.*//g')
+	dpkg-reconfigure $mysql
 	echo "Create a password for the pwrtelegram user"
 	passwd pwrtelegram
 	homedir=$( getent passwd "pwrtelegram" | cut -d: -f6 )
 	configure
+	pwrexec $homedir/pwrtelegram/start_stop.sh start
 	exit
 fi
 
