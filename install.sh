@@ -136,10 +136,9 @@ echo "Installing required packages..."
 apt-get -y --force-yes install hhvm
 service hhvm stop
 if [ "$1" == "docker" ];then
-	apt-get --force-yes -y install curl libreadline-dev libconfig-dev libssl-dev lua5.2 liblua5.2-dev libevent-dev libjansson-dev libpython-dev make build-essential mediainfo wget mysql-server mysql-client automake autoconf libtool git software-properties-common python-software-properties tmux libcap2-bin << EOF
-
-
-EOF
+	debconf-set-selections <<< 'mysql-server mysql-server/root_password password pwrtelegram'
+	debconf-set-selections <<< 'mysql-server mysql-server/root_password_again password pwrtelegram'
+	apt-get --force-yes -y install curl libreadline-dev libconfig-dev libssl-dev lua5.2 liblua5.2-dev libevent-dev libjansson-dev libpython-dev make build-essential mediainfo wget mysql-server mysql-client automake autoconf libtool git software-properties-common python-software-properties tmux libcap2-bin
 else
 	apt-get --force-yes -y install curl libreadline-dev libconfig-dev libssl-dev lua5.2 liblua5.2-dev libevent-dev libjansson-dev libpython-dev make build-essential mediainfo wget mysql-server mysql-client automake autoconf libtool git software-properties-common python-software-properties tmux libcap2-bin
 fi
