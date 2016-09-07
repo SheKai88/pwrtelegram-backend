@@ -67,14 +67,14 @@ configure() {
 
 	cd $homedir
 	echo "Configuring tg-cli for normal telegram (please enter your phone number now...)"
-	export TELEGRAM_HOME="$homedir/tgstorage"
+	export TELEGRAM_HOME="$homedir/pwrtelegram/tgstorage"
 	pwrexec "$homedir/pwrtelegram/tg/bin/telegram-cli -e quit"
 	tg=$(pwrexec $homedir/pwrtelegram/tg/bin/telegram-cli -e 'get_self' --json -R)
 	tg=$(echo "$tg" | sed '/\"peer_id\": /!d;s/.*\"peer_id\": //g;s/,.*//g')
 	sed 's/140639228/'$tg'/g' -i $homedir/pwrtelegram/storage_url.php
 
 	echo "Configuring tg-cli for deep telegram (please enter your phone number now...)"
-	export TELEGRAM_HOME="$homedir/deeptgstorage"
+	export TELEGRAM_HOME="$homedir/pwrtelegram/deeptgstorage"
 	pwrexec "$homedir/pwrtelegram/tg/bin/telegram-cli -e quit"
 	tg=$(pwrexec $homedir/pwrtelegram/tg/bin/telegram-cli -e 'get_self' --json -R)
 	tg=$(echo "$tg" | sed '/\"peer_id\": /!d;s/.*\"peer_id\": //g;s/,.*//g')
