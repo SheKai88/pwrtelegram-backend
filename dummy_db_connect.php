@@ -10,5 +10,10 @@ See the GNU Affero General Public License for more details.
 You should have received a copy of the GNU General Public License along with the PWRTelegram API.
 If not, see <http://www.gnu.org/licenses/>.
 */
-$pdo = new PDO('mysql:host=localhost;dbname=pwrtelegram', 'user', 'pass');
-$pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
+$db = 'mysql:host=localhost;dbname=pwrtelegram';
+$dbuser = 'user';
+$dbpassword = 'pass';
+
+$deepdb = 'mysql:host=localhost;dbname=deeppwrtelegram';
+$deepdbuser = 'user';
+$deepdbpassword = 'pass';

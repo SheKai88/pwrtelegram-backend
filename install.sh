@@ -36,35 +36,63 @@ configure() {
 	read -p "Password: " password
 
 	echo "Installing database..."
-	mysql -u$username -p$password -e 'DROP DATABASE IF EXISTS `pwrtelegram`; CREATE DATABASE `pwrtelegram`;'
-	mysql -u$username -p$password pwrtelegram < db.sql
+	mysql -u$username -p$password -e 'DROP DATABASE IF EXISTS `pwrtelegram`; CREATE DATABASE `pwrtelegram`;DROP DATABASE IF EXISTS `deeppwrtelegram`; CREATE DATABASE `deeppwrtelegram`;'
+	mysql -u$username -p$password < db.sql
 	cp dummy_db_connect.php db_connect.php
 	sed -i 's/user/'$username'/g;s/pass/'$password'/g' db_connect.php
 
 	cd $homedir/pwrtelegram
 	read -p "Type the domain name you intend to use for the main pwrtelegram API server (defaults to api.pwrtelegram.xyz): " api
 	[ "$api" == "" ] && api="api.pwrtelegram.xyz"
+	read -p "Type the domain name you intend to use for the main deep pwrtelegram API server (defaults to deepapi.pwrtelegram.xyz): " deepapi
+	[ "$deepapi" == "" ] && deepapi="deepapi.pwrtelegram.xyz"
+
 	read -p "Type the domain name you intend to use for the beta pwrtelegram API server (defaults to beta.pwrtelegram.xyz): " beta
 	[ "$beta" == "" ] && beta="beta.pwrtelegram.xyz"
+	read -p "Type the domain name you intend to use for the beta deep pwrtelegram API server (defaults to deepbeta.pwrtelegram.xyz): " deepbeta
+	[ "$deepbeta" == "" ] && deepbeta="deepbeta.pwrtelegram.xyz"
+
 	read -p "Type the domain name you intend to use for the pwrtelegram storage server (defaults to storage.pwrtelegram.xyz): " storage
 	[ "$storage" == "" ] && storage="storage.pwrtelegram.xyz"
+	read -p "Type the domain name you intend to use for the deep pwrtelegram storage server (defaults to deepstorage.pwrtelegram.xyz): " deepstorage
+	[ "$deepstorage" == "" ] && deepstorage="deepstorage.pwrtelegram.xyz"
+
+	read -p "Type the domain name you intend to use for the beta pwrtelegram storage server (defaults to betastorage.pwrtelegram.xyz): " betastorage
+	[ "$betastorage" == "" ] && betastorage="betastorage.pwrtelegram.xyz"
+	read -p "Type the domain name you intend to use for the deep beta pwrtelegram storage server (defaults to deepbetastorage.pwrtelegram.xyz): " deepbetastorage
+	[ "$deepbetastorage" == "" ] && deepbetastorage="deepbetastorage.pwrtelegram.xyz"
 
 	echo "Configuring pwrtelegram..."
-	sed -i 's/api\.pwrtelegram\.xyz/'$api'/g;s/beta\.pwrtelegram\.xyz/'$beta'/g;s/storage\.pwrtelegram\.xyz/'$storage'/g' Caddyfile storage_url.php
+	sed -i 's/api\.pwrtelegram\.xyz/'$api'/g;s/deepapi\.pwrtelegram\.xyz/'$deepapi'/g;s/beta\.pwrtelegram\.xyz/'$beta'/g;s/deepbeta\.pwrtelegram\.xyz/'$deepbeta'/g;s/storage\.pwrtelegram\.xyz/'$storage'/g;s/deepstorage\.pwrtelegram\.xyz/'$deepstorage'/g;s/betastorage\.pwrtelegram\.xyz/'$betastorage'/g;s/deepbetastorage\.pwrtelegram\.xyz/'$deepbetastorage'/g' Caddyfile storage_url.php
 
 	cd $homedir
-	echo "Configuring tg-cli (please enter your phone number now...)"
+	echo "Configuring tg-cli for normal telegram (please enter your phone number now...)"
+	export TELEGRAM_HOME="$homedir/tgstorage"
 	pwrexec "$homedir/pwrtelegram/tg/bin/telegram-cli -e quit"
 	tg=$(pwrexec $homedir/pwrtelegram/tg/bin/telegram-cli -e 'get_self' --json -R)
 	tg=$(echo "$tg" | sed '/\"peer_id\": /!d;s/.*\"peer_id\": //g;s/,.*//g')
-
 	sed 's/140639228/'$tg'/g' -i $homedir/pwrtelegram/storage_url.php
+
+	echo "Configuring tg-cli for deep telegram (please enter your phone number now...)"
+	export TELEGRAM_HOME="$homedir/deeptgstorage"
+	pwrexec "$homedir/pwrtelegram/tg/bin/telegram-cli -e quit"
+	tg=$(pwrexec $homedir/pwrtelegram/tg/bin/telegram-cli -e 'get_self' --json -R)
+	tg=$(echo "$tg" | sed '/\"peer_id\": /!d;s/.*\"peer_id\": //g;s/,.*//g')
+	sed 's/32198/'$tg'/g' -i $homedir/pwrtelegram/storage_url.php
+
+	cd $homedir
+	pwrexec "git clone https://github.com/pwrtelegram/pwrtelegram beta"
 
 	echo "That's it, pretty much!
 You have configured PWRTelegram in the following way:
 Main API server (syncs with pwrtelegram github repo automatically every minute to stay updated): $api
+Main deep API server (syncs with pwrtelegram github repo automatically every minute to stay updated): $deepapi
 Beta API server (local clone of the PWRTelegram repository that you can use to test new features and debug the API without touching the main API): $beta
+Beta deep API server (local clone of the PWRTelegram repository that you can use to test new features and debug the API without touching the main API): $deepbeta
 Storage server (script that serves files downloaded by the PWRTelegram API): $storage
+Deep storage server (script that serves files downloaded by the deep PWRTelegram API): $deepstorage
+Beta storage server (script that serves files downloaded by the PWRTelegram API, uses script located in the beta API): $betastorage
+Deep beta storage server (script that serves files downloaded by the deep PWRTelegram API, uses script located in the beta API): $deepbetastorage
 
 Now you have to complete the installation by doing the following things:
 
@@ -86,8 +114,10 @@ And (optional but recommended) support the developer with a donation @ https://p
 
 Here are the paths of the log files:
 * Caddy: $homedir/pwrtelegram/caddy.log
-* API endpoints (server log): $homedir/pwrtelegram/api.log
-* Storage server (server log): $homedir/pwrtelegram/storage.log
+* Main API endpoints (server log): $homedir/pwrtelegram/api.log
+* Beta API endpoints (server log): $homedir/pwrtelegram/beta.log
+* Main storage endpoints (server log): $homedir/pwrtelegram/storage.log
+* Beta storage endpoints (server log): $homedir/pwrtelegram/betastorage.log
 * API and storage (php log): /tmp/php-error-index.log
 
 
@@ -165,7 +195,7 @@ fi
 
 if ! which caddy &>/dev/null;then
 	echo "Installing caddy..."
-	wget -O - https://getcaddy.com | bash -s cors,git,realip,upload,cloudflare
+	wget -O - https://getcaddy.com | bash -s cors,git,realip,upload
 	setcap cap_net_bind_service=+ep /usr/local/bin/caddy
 	which caddy >/dev/null
 fi
