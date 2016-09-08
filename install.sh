@@ -34,12 +34,12 @@ configure() {
 	echo "Please enter your mysql database username and password."
 	read -p "Username: " username
 	read -p "Password: " password
-
+	cd $homedir/pwrtelegram
 	echo "Installing database..."
 	mysql -u$username -p$password -e 'DROP DATABASE IF EXISTS `pwrtelegram`; CREATE DATABASE `pwrtelegram`;DROP DATABASE IF EXISTS `deeppwrtelegram`; CREATE DATABASE `deeppwrtelegram`;'
 	mysql -u$username -p$password < db.sql
 	cp dummy_db_connect.php db_connect.php
-	sed -i 's/user/'$username'/g;s/pass/'$password'/g' db_connect.php
+	sed -i 's/sampleuser/'$username'/g;s/samplepass/'$password'/g' db_connect.php
 
 	cd $homedir/pwrtelegram
 	read -p "Type the domain name you intend to use for the main pwrtelegram API server (defaults to api.pwrtelegram.xyz): " api

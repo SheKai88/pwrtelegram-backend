@@ -11,9 +11,9 @@ You should have received a copy of the GNU General Public License along with the
 If not, see <http://www.gnu.org/licenses/>.
 */
 $db = 'mysql:host=localhost;dbname=pwrtelegram';
-$dbuser = 'user';
-$dbpassword = 'pass';
+$dbuser = 'sampleuser';
+$dbpassword = 'samplepass';
 
 $deepdb = 'mysql:host=localhost;dbname=deeppwrtelegram';
-$deepdbuser = 'user';
-$deepdbpassword = 'pass';
+$deepdbuser = 'sampleuser';
+$deepdbpassword = 'samplepass';
