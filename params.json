@@ -1,0 +1,6 @@
+{
+  "name": "Pwrtelegram-backend",
+  "tagline": "Installation script for the PWRTelegam API",
+  "body": "# PWRtelegram backend\r\n\r\nThis repository contains all of the configuration files for the backend of the pwrtelegram API, along with an installation script.\r\n\r\nTo install the PWRTelegram API run the following command:\r\n\r\n```\r\nwget -O install.sh https://raw.githubusercontent.com/pwrtelegram/pwrtelegram-backend/master/install.sh && chmod +x install.sh && sudo bash -e install.sh\r\n```\r\n\r\nThis script is created to run on Ubuntu 14.04.\r\n\r\nPWRTelegram and its dependencies require at least 1.5 GB of RAM (a swap file or partition is highly recommended) and 1 gb of hard drive space.\r\n\r\nThe php part of PWRTelegram is updated minutely, but tg-cli and all of the other submodules can by updated by running the update.sh script located in he pwrtelegram directory.\r\n",
+  "note": "Don't delete this file! It's used internally to help with page regeneration."
+}
